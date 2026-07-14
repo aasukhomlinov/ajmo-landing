@@ -1,0 +1,322 @@
+/* ajmo.events — «Afiša» night-poster system. Tokens mirror design-tokens.json. */
+
+@font-face {
+  font-family: 'TikTok Sans';
+  src: url('/fonts/TikTokSans-Variable.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-stretch: 75% 125%;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+  --bg: #0d0e11;
+  --surface: #17181d;
+  --raised: #1f2128;
+  --lime: #ccff00;
+  --lime-pressed: #a8d400;
+  --text: #f4f4f2;
+  --text-2: #9a9ca6;
+  --border: #2a2c34;
+  --on-accent: #0d0e11;
+  --gutter: clamp(20px, 4.2vw, 60px);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'TikTok Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  /* clip, not hidden — hidden creates a scroll container and kills position:sticky */
+  overflow-x: clip;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* ---------- type helpers ---------- */
+.display, h1, h2 {
+  font-weight: 800;
+  font-stretch: 121%;
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+.caption-type {
+  font-weight: 600;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.lime-text { color: var(--lime); }
+
+.badge {
+  font-weight: 600;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+  background: var(--lime);
+  color: var(--on-accent);
+  border-radius: 999px;
+  padding: 8px 14px;
+  white-space: nowrap;
+}
+
+.ghost-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 9px 16px;
+  white-space: nowrap;
+}
+.apple-icon { width: 15px; height: 15px; fill: var(--text-2); }
+
+/* ---------- nav ---------- */
+.nav {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px var(--gutter);
+  border-bottom: 1px solid var(--border);
+}
+.wordmark { width: 98px; height: 33px; fill: var(--lime); }
+.nav-links { display: flex; gap: 28px; font-size: 14px; color: var(--text-2); }
+.nav-links a:hover { color: var(--text); }
+
+/* ---------- hero (sticky under the lime wipe) ---------- */
+.hero {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  z-index: 0;
+  overflow: hidden;
+}
+.hero-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: clamp(96px, 14vh, 150px);
+  gap: 28px;
+}
+.hero-title {
+  font-size: clamp(52px, 9vw, 128px);
+  text-align: center;
+}
+.hero-phone {
+  width: clamp(280px, 30vw, 438px);
+  height: auto;
+  margin-top: 8px;
+}
+.scroll-pill {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 36px;
+  font-weight: 600;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 10px;
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 9px 16px;
+}
+
+/* ---------- lime scene ---------- */
+.lime {
+  position: relative;
+  z-index: 2;
+  height: 280svh;
+  background: var(--lime);
+  clip-path: polygon(0 4.5vw, 100% 0, 100% 100%, 0 100%);
+}
+.lime-pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.lime-title {
+  color: var(--on-accent);
+  font-size: clamp(48px, 8.5vw, 118px);
+  text-align: center;
+  z-index: 1;
+}
+.poster {
+  position: absolute;
+  border-radius: 16px;
+  overflow: hidden;
+  width: clamp(120px, 16vw, 300px);
+  z-index: 0;
+}
+.poster img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 5; }
+.poster[data-pos='tl'] { left: -3%;  top: 8%;   rotate: -12deg; }
+.poster[data-pos='tr'] { right: -3%; top: 5%;   rotate: 10deg; width: clamp(110px, 15vw, 280px); }
+.poster[data-pos='ml'] { left: 4%;   top: 52%;  rotate: 7deg;  width: clamp(100px, 13vw, 240px); }
+.poster[data-pos='mr'] { right: 2%;  top: 55%;  rotate: -8deg; width: clamp(100px, 13vw, 240px); }
+.poster[data-pos='bl'] { left: 22%;  top: 74%;  rotate: -5deg; width: clamp(90px, 11vw, 200px); }
+.poster[data-pos='tc'] { left: 44%;  top: -6%;  rotate: 5deg;  width: clamp(90px, 11vw, 200px); }
+
+/* ---------- word cycle ---------- */
+.words {
+  position: relative;
+  z-index: 2;
+  height: 300svh;
+  background: var(--bg);
+}
+.words-pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1em;
+}
+.word {
+  font-weight: 800;
+  font-stretch: 121%;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-size: clamp(56px, 8vw, 110px);
+  color: var(--text-2);
+  opacity: 0.32;
+}
+.word.is-active { color: var(--lime); opacity: 1; }
+
+/* ---------- cities ---------- */
+.cities { position: relative; z-index: 2; background: var(--bg); }
+.chevron {
+  height: clamp(80px, 12vw, 170px);
+  background: var(--lime);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.cities-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: clamp(80px, 12vh, 140px) var(--gutter) clamp(100px, 15vh, 180px);
+  text-align: center;
+}
+.cities-title { font-size: clamp(44px, 7vw, 96px); }
+
+/* ---------- cta ---------- */
+.cta {
+  position: relative;
+  z-index: 2;
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: clamp(24px, 5vw, 80px);
+  padding: clamp(80px, 14vh, 160px) var(--gutter);
+  border-top: 1px solid var(--border);
+}
+.cta-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 28px; }
+.cta-title { font-size: clamp(48px, 6.5vw, 96px); }
+.cta-phone { width: clamp(300px, 40vw, 588px); height: auto; justify-self: end; }
+
+.waitlist { display: flex; gap: 12px; flex-wrap: wrap; }
+.waitlist input {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  width: min(340px, 100%);
+  outline: none;
+}
+.waitlist input:focus { border-color: var(--lime); }
+.waitlist input::placeholder { color: var(--text-2); }
+.waitlist button {
+  font-family: inherit;
+  font-weight: 600;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 13px;
+  color: var(--on-accent);
+  background: var(--lime);
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 24px;
+  cursor: pointer;
+}
+.waitlist button:hover { background: var(--lime-pressed); }
+.waitlist.is-done button { pointer-events: none; opacity: 0.85; }
+.microcopy {
+  font-weight: 600;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 10px;
+  color: var(--text-2);
+}
+
+/* ---------- footer ---------- */
+.footer {
+  position: relative;
+  z-index: 2;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  overflow: hidden;
+}
+.footer-logo { display: flex; justify-content: center; padding: clamp(40px, 7vh, 90px) 0 0; }
+.wordmark-giant {
+  width: 116vw;
+  margin: 0 -8vw;
+  height: auto;
+  fill: var(--lime);
+  flex-shrink: 0;
+}
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: clamp(32px, 5vh, 56px) var(--gutter) 40px;
+}
+.legal { font-size: 12px; line-height: 1.6; color: var(--text-2); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 820px) {
+  .nav-links { display: none; }
+  .cta { grid-template-columns: 1fr; }
+  .cta-phone { justify-self: center; }
+  .poster[data-pos='bl'], .poster[data-pos='tc'] { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
