@@ -201,20 +201,20 @@ a { color: inherit; text-decoration: none; }
   text-align: center;
   z-index: 1;
 }
+/* posters ride ABOVE the headline — it fades out as they pile onto it.
+   Geometry mirrors the Figma etalon (scene 1440×880). */
 .poster {
   position: absolute;
   border-radius: 16px;
   overflow: hidden;
-  width: clamp(120px, 16vw, 300px);
-  z-index: 0;
+  z-index: 2;
 }
-.poster img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 5; }
-.poster[data-pos='tl'] { left: -3%;  top: 8%;   rotate: -12deg; }
-.poster[data-pos='tr'] { right: -3%; top: 5%;   rotate: 10deg; width: clamp(110px, 15vw, 280px); }
-.poster[data-pos='ml'] { left: 4%;   top: 52%;  rotate: 7deg;  width: clamp(100px, 13vw, 240px); }
-.poster[data-pos='mr'] { right: 2%;  top: 55%;  rotate: -8deg; width: clamp(100px, 13vw, 240px); }
-.poster[data-pos='bl'] { left: 22%;  top: 74%;  rotate: -5deg; width: clamp(90px, 11vw, 200px); }
-.poster[data-pos='tc'] { left: 44%;  top: -6%;  rotate: 5deg;  width: clamp(90px, 11vw, 200px); }
+.poster img { width: 100%; height: 100%; object-fit: cover; }
+.poster[data-pos='tl'] { left: -4.2%; top: 10.2%;  rotate: -12deg; width: clamp(150px, 20.8vw, 300px); aspect-ratio: 300 / 380; }
+.poster[data-pos='bl'] { left: 12.5%; top: 63.6%;  rotate: 8deg;   width: clamp(120px, 16.7vw, 240px); aspect-ratio: 4 / 5; }
+.poster[data-pos='tr'] { left: 81.9%; top: 6.8%;   rotate: 10deg;  width: clamp(140px, 19.4vw, 280px); aspect-ratio: 4 / 5; }
+.poster[data-pos='br'] { left: 86.3%; top: 56.9%;  rotate: -8deg;  width: clamp(120px, 16.7vw, 240px); aspect-ratio: 240 / 310; }
+.poster[data-pos='tc'] { left: 43.1%; top: -10.2%; rotate: 5deg;   width: clamp(100px, 13.9vw, 200px); aspect-ratio: 4 / 5; }
 
 /* ---------- word cycle ---------- */
 .words {
@@ -241,6 +241,7 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(56px, 8vw, 110px);
   color: var(--text-2);
   opacity: 0.32;
+  transition: color 0.3s ease, opacity 0.3s ease;
 }
 .word.is-active { color: var(--lime); opacity: 1; }
 

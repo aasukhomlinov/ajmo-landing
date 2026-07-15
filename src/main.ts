@@ -115,11 +115,11 @@ if (!prefersReducedMotion) {
      behind the text (storyboard row B). */
   const limeScrub = { trigger: '#lime', start: 'top top', end: 'bottom bottom', scrub: true };
 
-  gsap.fromTo(
-    '.lime-title',
-    { scale: 1.12 },
-    { scale: 0.62, ease: 'none', scrollTrigger: limeScrub },
-  );
+  gsap
+    .timeline({ defaults: { ease: 'none' }, scrollTrigger: limeScrub })
+    .fromTo('.lime-title', { scale: 1.12 }, { scale: 0.62, duration: 1 }, 0)
+    /* the headline dissolves as the posters pile on top of it */
+    .to('.lime-title', { opacity: 0, duration: 0.4 }, 0.45);
 
   const pin = document.querySelector<HTMLElement>('.lime-pin');
   document.querySelectorAll<HTMLElement>('.poster').forEach((poster, i) => {
@@ -143,21 +143,17 @@ if (!prefersReducedMotion) {
     });
   });
 
-  /* Scene 3 — word cycle: each word takes the lime highlight in turn. */
+  /* Scene 3 — word cycle: the lime highlight steps through the words with
+     scroll progress (accent color per the DS token). */
   const words = gsap.utils.toArray<HTMLElement>('.word');
-  words.forEach((word, i) => {
-    ScrollTrigger.create({
-      trigger: '#words',
-      start: () => `top+=${(i / words.length) * 100}% top`,
-      end: () => `top+=${((i + 1) / words.length) * 100}% top`,
-      onToggle: (self) => word.classList.toggle('is-active', self.isActive),
-    });
-    gsap.from(word, {
-      yPercent: 40,
-      opacity: 0,
-      scrollTrigger: { trigger: '#words', start: 'top 70%', end: 'top 20%', scrub: true },
-      delay: i * 0.05,
-    });
+  ScrollTrigger.create({
+    trigger: '#words',
+    start: 'top top',
+    end: 'bottom bottom',
+    onUpdate(self) {
+      const idx = Math.min(words.length - 1, Math.floor(self.progress * words.length));
+      words.forEach((w, i) => w.classList.toggle('is-active', i === idx));
+    },
   });
 
   /* Scene 4 — chevron parallax + cities reveal (storyboard row C). */
