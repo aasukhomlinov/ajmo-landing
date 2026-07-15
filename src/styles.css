@@ -113,7 +113,7 @@ a { color: inherit; text-decoration: none; }
    full-screen center, phase 2 the lime wipe covers it ---------- */
 .hero {
   position: relative;
-  height: 220svh;
+  height: 320svh;
   z-index: 0;
 }
 .hero-pin {
@@ -156,6 +156,9 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   z-index: 2;
   height: 280svh;
+  /* ride up over the still-pinned hero: the wipe happens during the last
+     100svh of the hero's pin range (cover pattern) */
+  margin-top: -100svh;
   background: var(--lime);
   clip-path: polygon(0 4.5vw, 100% 0, 100% 100%, 0 100%);
 }

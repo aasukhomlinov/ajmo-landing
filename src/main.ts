@@ -67,8 +67,8 @@ if (!prefersReducedMotion) {
         invalidateOnRefresh: true,
       },
     })
-    .to('.hero .badge, .scroll-pill', { opacity: 0, duration: 0.18 }, 0)
-    .to('.hero-title', { opacity: 0, y: -60, duration: 0.35 }, 0)
+    .to('.hero .badge, .scroll-pill', { opacity: 0, duration: 0.1 }, 0)
+    .to('.hero-title', { opacity: 0, y: -60, duration: 0.2 }, 0)
     .to(
       phone,
       {
@@ -76,12 +76,27 @@ if (!prefersReducedMotion) {
         y: () => window.innerHeight / 2 - (phone.offsetTop + phone.offsetHeight / 2),
         scale: () => (window.innerHeight * 0.94) / phone.offsetHeight,
         transformOrigin: '50% 50%',
-        duration: 0.55,
+        duration: 0.32,
       },
-      0.05,
+      0.03,
     )
     /* dead time: hold the full-screen phone before the wipe arrives */
-    .to({}, { duration: 0.25 }, 0.6);
+    .to({}, { duration: 0.2 }, 0.35)
+    /* beat 3 — as the lime wipe rides up, the phone shrinks and dives
+       beneath it (lime sits on a higher z-index) */
+    .to(
+      phone,
+      {
+        y: () =>
+          window.innerHeight / 2 -
+          (phone.offsetTop + phone.offsetHeight / 2) +
+          window.innerHeight * 0.5,
+        scale: () => ((window.innerHeight * 0.94) / phone.offsetHeight) * 0.72,
+        ease: 'power1.in',
+        duration: 0.4,
+      },
+      0.55,
+    );
 
   /* the wipe edge itself flattens as the lime section lands */
   gsap.to('#lime', {
