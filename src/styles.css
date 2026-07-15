@@ -144,12 +144,14 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: clamp(96px, 14vh, 150px);
+  /* generous air below the header so the badge groups with the headline */
+  padding-top: clamp(130px, 18svh, 200px);
   gap: 28px;
 }
-/* pull the badge toward the headline — it belongs to the hero copy,
-   not to the header above */
-.hero-pin > .ghost-pill { margin-bottom: -14px; }
+/* pull the badge toward the headline — it belongs to the hero copy, not to
+   the header above (the huge type carries ~25px of internal leading, so the
+   box gap must be near zero for the visual gap to read tight) */
+.hero-pin > .ghost-pill { margin-bottom: -22px; }
 .hero-title {
   font-size: clamp(52px, 9vw, 128px);
   text-align: center;
