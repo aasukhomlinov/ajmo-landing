@@ -47,6 +47,12 @@ if (!prefersReducedMotion) {
       else return;
       e.preventDefault();
     });
+    // header CTA: smooth-scroll to the waitlist instead of a native jump
+    // (Lenis would fight the browser's instant anchor scroll)
+    document.querySelector('.nav-cta')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      lenis.scrollTo('#cta');
+    });
     // debug/test hook
     (window as unknown as { __lenis: Lenis }).__lenis = lenis;
   }
@@ -67,7 +73,7 @@ if (!prefersReducedMotion) {
         invalidateOnRefresh: true,
       },
     })
-    .to('.hero .badge, .scroll-pill', { opacity: 0, duration: 0.1 }, 0)
+    .to('.hero .ghost-pill, .scroll-pill', { opacity: 0, duration: 0.1 }, 0)
     .to('.hero-title', { opacity: 0, y: -60, duration: 0.2 }, 0)
     .to(
       phone,
