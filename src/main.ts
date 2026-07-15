@@ -156,21 +156,25 @@ if (!prefersReducedMotion) {
     },
   });
 
-  /* Scene 4 — Jeton-style chevron wipe: the lime roof opens with scroll and
-     inverts the section's background/type via the clipped duplicate layer. */
+  /* Scene 4 — Jeton-style chevron wipe, bottom-up: the lime peak rises from
+     the section's bottom edge to its highest point, inverting background and
+     type via the clipped duplicate layer. */
   const overlay = document.querySelector<HTMLElement>('.cities-overlay');
-  const chev = document.querySelector<HTMLElement>('.cities > .chevron');
-  if (overlay && chev) {
+  if (overlay) {
+    /* peak height ≈ the old chevron clamp(80px, 12vw, 170px) */
+    const peak = () => Math.min(170, Math.max(80, window.innerWidth * 0.12));
     gsap.fromTo(
       overlay,
       {
-        clipPath: () =>
-          `polygon(0 0, 100% 0, 100% 0px, 50% ${chev.offsetHeight}px, 0 0px)`,
+        clipPath: () => {
+          const s = overlay.offsetHeight;
+          return `polygon(0 ${s}px, 50% ${s - peak()}px, 100% ${s}px, 100% ${s}px, 0 ${s}px)`;
+        },
       },
       {
         clipPath: () => {
           const s = overlay.offsetHeight;
-          return `polygon(0 0, 100% 0, 100% ${s}px, 50% ${s + chev.offsetHeight}px, 0 ${s}px)`;
+          return `polygon(0 0px, 50% ${-peak()}px, 100% 0px, 100% ${s}px, 0 ${s}px)`;
         },
         ease: 'none',
         scrollTrigger: {
