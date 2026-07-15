@@ -51,16 +51,37 @@ if (!prefersReducedMotion) {
     (window as unknown as { __lenis: Lenis }).__lenis = lenis;
   }
 
-  /* Scene 1 → 2 — hero sits sticky under the lime wipe; its content dives as
-     the wipe approaches (storyboard row A + D). */
+  /* Scene 1 — pinned hero, two beats (rev 2 of storyboard rows A/D):
+     beat 1 — headline fades out while the phone surfaces to full-screen
+     center; beat 2 — a short full-screen hold, then the lime wipe covers
+     the pinned hero exactly as before (cover pattern). */
+  const phone = document.querySelector<HTMLElement>('.hero-phone')!;
   gsap
     .timeline({
-      scrollTrigger: { trigger: '#lime', start: 'top bottom', end: 'top top', scrub: true },
+      defaults: { ease: 'none' },
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
     })
-    .to('.hero-title', { y: -70, opacity: 0.3, ease: 'none' }, 0)
-    .to('.hero .badge', { opacity: 0, ease: 'none' }, 0)
-    .to('.hero-phone', { y: 140, scale: 0.88, ease: 'none' }, 0)
-    .to('.scroll-pill', { opacity: 0, ease: 'none' }, 0);
+    .to('.hero .badge, .scroll-pill', { opacity: 0, duration: 0.18 }, 0)
+    .to('.hero-title', { opacity: 0, y: -60, duration: 0.35 }, 0)
+    .to(
+      phone,
+      {
+        /* offsetTop/offsetHeight ignore transforms — stable across refreshes */
+        y: () => window.innerHeight / 2 - (phone.offsetTop + phone.offsetHeight / 2),
+        scale: () => (window.innerHeight * 0.94) / phone.offsetHeight,
+        transformOrigin: '50% 50%',
+        duration: 0.55,
+      },
+      0.05,
+    )
+    /* dead time: hold the full-screen phone before the wipe arrives */
+    .to({}, { duration: 0.25 }, 0.6);
 
   /* the wipe edge itself flattens as the lime section lands */
   gsap.to('#lime', {
@@ -158,6 +179,22 @@ if (!prefersReducedMotion) {
     ease: 'none',
     scrollTrigger: { trigger: '.footer', start: 'top bottom', end: 'bottom bottom', scrub: true },
   });
+
+  /* Layout can settle after module init (late fonts, viewport chrome) —
+     re-measure every trigger once the dust settles. */
+  document.fonts?.ready.then(() => ScrollTrigger.refresh());
+  window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+
+  // debug/test hook
+  (window as unknown as { __st: (r?: boolean) => unknown }).__st = (r) => {
+    if (r) ScrollTrigger.refresh();
+    return ScrollTrigger.getAll().map((t) => ({
+      trg: (t.trigger as HTMLElement)?.className || (t.trigger as HTMLElement)?.id,
+      start: Math.round(t.start),
+      end: Math.round(t.end),
+      p: Number(t.progress.toFixed(2)),
+    }));
+  };
 } else {
   /* Reduced motion: word cycle still needs a readable resting state. */
   document.querySelector('.word[data-step="1"]')?.classList.add('is-active');

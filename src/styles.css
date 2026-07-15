@@ -109,16 +109,18 @@ a { color: inherit; text-decoration: none; }
 .nav-links { display: flex; gap: 28px; font-size: 14px; color: var(--text-2); }
 .nav-links a:hover { color: var(--text); }
 
-/* ---------- hero (sticky under the lime wipe) ---------- */
+/* ---------- hero — long pinned scene: phase 1 the phone surfaces to
+   full-screen center, phase 2 the lime wipe covers it ---------- */
 .hero {
+  position: relative;
+  height: 220svh;
+  z-index: 0;
+}
+.hero-pin {
   position: sticky;
   top: 0;
   height: 100svh;
-  z-index: 0;
   overflow: hidden;
-}
-.hero-inner {
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
