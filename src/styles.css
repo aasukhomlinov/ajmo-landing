@@ -105,8 +105,9 @@ a { color: inherit; text-decoration: none; }
   padding: 22px var(--gutter);
   border-bottom: 1px solid var(--border);
 }
-/* absolutely centered so it never drifts, however wide the logo/CTA are */
-.nav-links {
+/* header links only: absolutely centered so they never drift, however wide
+   the logo/CTA are (footer links share the class and must stay in flow) */
+.nav > .nav-links {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -332,25 +333,27 @@ a { color: inherit; text-decoration: none; }
   border-top: 1px solid var(--border);
   overflow: hidden;
 }
-.footer-logo { display: flex; justify-content: center; padding: clamp(40px, 7vh, 90px) 0 0; }
+/* logo sits INSIDE the grid (etalon: gutter-aligned, content width) */
+.footer-logo { padding: clamp(32px, 3.9vw, 64px) var(--gutter) 0; }
 .wordmark-giant {
-  width: 116vw;
-  margin: 0 -8vw;
+  display: block;
+  width: 100%;
   height: auto;
+  /* inline SVG gets no intrinsic ratio from viewBox — set it explicitly */
+  aspect-ratio: 98 / 33;
   fill: var(--lime);
-  flex-shrink: 0;
 }
 .footer-bottom {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: clamp(32px, 5vh, 56px) var(--gutter) 40px;
+  gap: clamp(28px, 3.3vw, 48px);
+  padding: clamp(64px, 9vw, 130px) var(--gutter) clamp(36px, 3.3vw, 48px);
 }
 .legal { font-size: 12px; line-height: 1.6; color: var(--text-2); }
 
 /* ---------- responsive ---------- */
 @media (max-width: 900px) {
-  .nav-links { display: none; }
+  .nav > .nav-links { display: none; }
   .cta { grid-template-columns: 1fr; }
   .cta-phone { justify-self: center; }
   .poster[data-pos='bl'], .poster[data-pos='tc'] { display: none; }
