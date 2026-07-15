@@ -156,25 +156,28 @@ if (!prefersReducedMotion) {
     },
   });
 
-  /* Scene 4 — Jeton-style chevron wipe, bottom-up: the lime peak rises from
-     the section's bottom edge to its highest point, inverting background and
-     type via the clipped duplicate layer. */
+  /* Scene 4 — Jeton-style triangle wipe: a tiny lime triangle at the bottom
+     center grows in every direction — apex climbs past the top while the
+     base corners spread beyond the sides — inverting background and type
+     via the clipped duplicate layer. */
   const overlay = document.querySelector<HTMLElement>('.cities-overlay');
   if (overlay) {
-    /* peak height ≈ the old chevron clamp(80px, 12vw, 170px) */
-    const peak = () => Math.min(170, Math.max(80, window.innerWidth * 0.12));
     gsap.fromTo(
       overlay,
       {
         clipPath: () => {
+          const w = overlay.offsetWidth;
           const s = overlay.offsetHeight;
-          return `polygon(0 ${s}px, 50% ${s - peak()}px, 100% ${s}px, 100% ${s}px, 0 ${s}px)`;
+          return `polygon(${w / 2 - 14}px ${s}px, ${w / 2}px ${s - 16}px, ${w / 2 + 14}px ${s}px)`;
         },
       },
       {
+        /* apex at -0.5s and base at ±1.6w keep the sloped sides outside the
+           section's top corners → full coverage at progress 1 */
         clipPath: () => {
+          const w = overlay.offsetWidth;
           const s = overlay.offsetHeight;
-          return `polygon(0 0px, 50% ${-peak()}px, 100% 0px, 100% ${s}px, 0 ${s}px)`;
+          return `polygon(${w / 2 - 1.6 * w}px ${s}px, ${w / 2}px ${-0.5 * s}px, ${w / 2 + 1.6 * w}px ${s}px)`;
         },
         ease: 'none',
         scrollTrigger: {
