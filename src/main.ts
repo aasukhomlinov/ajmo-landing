@@ -156,20 +156,40 @@ if (!prefersReducedMotion) {
     },
   });
 
-  /* Scene 4 — chevron parallax + cities reveal (storyboard row C). */
-  gsap.from('.chevron', {
-    scaleY: 0.4,
-    transformOrigin: 'top',
-    ease: 'none',
-    scrollTrigger: { trigger: '.cities', start: 'top bottom', end: 'top 40%', scrub: true },
-  });
-  gsap.from('.cities-inner > *', {
+  /* Scene 4 — Jeton-style chevron wipe: the lime roof opens with scroll and
+     inverts the section's background/type via the clipped duplicate layer. */
+  const overlay = document.querySelector<HTMLElement>('.cities-overlay');
+  const chev = document.querySelector<HTMLElement>('.cities > .chevron');
+  if (overlay && chev) {
+    gsap.fromTo(
+      overlay,
+      {
+        clipPath: () =>
+          `polygon(0 0, 100% 0, 100% 0px, 50% ${chev.offsetHeight}px, 0 0px)`,
+      },
+      {
+        clipPath: () => {
+          const s = overlay.offsetHeight;
+          return `polygon(0 0, 100% 0, 100% ${s}px, 50% ${s + chev.offsetHeight}px, 0 ${s}px)`;
+        },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.cities',
+          start: 'top 70%',
+          end: 'top 5%',
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      },
+    );
+  }
+  gsap.from('.cities > .cities-inner > *', {
     y: 60,
     opacity: 0,
     stagger: 0.12,
     duration: 0.8,
     ease: 'power3.out',
-    scrollTrigger: { trigger: '.cities-inner', start: 'top 75%' },
+    scrollTrigger: { trigger: '.cities', start: 'top 75%' },
   });
 
   /* Scene 5 — CTA reveal; phone drifts in from the right. */

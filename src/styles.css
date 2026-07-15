@@ -252,6 +252,18 @@ a { color: inherit; text-decoration: none; }
   background: var(--lime);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
 }
+/* lime inversion layer — clip-path is driven by scroll (main.ts) */
+.cities-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--lime);
+  clip-path: polygon(0 0, 100% 0, 100% 0, 50% 12%, 0 0);
+}
+.cities-overlay .chevron-ghost { visibility: hidden; }
+.cities-overlay .cities-title,
+.cities-overlay .lime-text,
+.cities-overlay .ghost-pill { color: var(--on-accent); }
+.cities-overlay .ghost-pill { border-color: var(--on-accent); }
 .cities-inner {
   display: flex;
   flex-direction: column;
