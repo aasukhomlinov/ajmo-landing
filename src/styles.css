@@ -281,14 +281,20 @@ a { color: inherit; text-decoration: none; }
   background: var(--bg);
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  /* copy stacks on the left (headline top, form bottom), phone spans right */
+  grid-template-areas:
+    'head phone'
+    'form phone';
   align-items: center;
-  gap: clamp(24px, 5vw, 80px);
+  column-gap: clamp(24px, 5vw, 80px);
+  row-gap: clamp(24px, 3vw, 40px);
   padding: clamp(80px, 14vh, 160px) var(--gutter);
   border-top: 1px solid var(--border);
 }
-.cta-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 28px; }
+.cta-head { grid-area: head; display: flex; flex-direction: column; align-items: flex-start; gap: 28px; }
+.cta-form { grid-area: form; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
 .cta-title { font-size: clamp(48px, 6.5vw, 96px); }
-.cta-phone { width: clamp(300px, 40vw, 588px); height: auto; justify-self: end; }
+.cta-phone { grid-area: phone; width: clamp(300px, 40vw, 588px); height: auto; justify-self: end; }
 
 .waitlist { display: flex; gap: 12px; flex-wrap: wrap; }
 .waitlist input {
@@ -368,13 +374,22 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 900px) {
   .nav > .nav-links { display: none; }
   .scroll-pill { display: none; }
-  .cta { grid-template-columns: 1fr; }
+  /* smaller headline here carries less leading → give the badge real air */
+  .hero-pin > .ghost-pill { margin-bottom: 4px; }
+  /* CTA: headline first, phone under it, form below */
+  .cta {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'head' 'phone' 'form';
+    row-gap: clamp(28px, 7vw, 44px);
+  }
   .cta-phone { justify-self: center; }
-  /* lime scene: fewer, smaller posters pushed further from the headline */
-  .poster[data-pos='bl'], .poster[data-pos='tc'] { display: none; }
-  .poster[data-pos='tl'] { width: 120px; left: -8%; top: 5%; }
-  .poster[data-pos='tr'] { width: 112px; left: 76%; top: 3%; }
-  .poster[data-pos='br'] { width: 104px; left: 72%; top: 66%; }
+  /* lime scene: all 5 posters, smaller, scattered around the centered
+     headline (3 above, 2 below) so none sits over the middle band */
+  .poster[data-pos='tl'] { width: 122px; left: -6%;  top: 8%;  }
+  .poster[data-pos='tc'] { width: 96px;  left: 42%;  top: -3%; }
+  .poster[data-pos='tr'] { width: 112px; left: 72%;  top: 6%;  }
+  .poster[data-pos='bl'] { width: 106px; left: -4%;  top: 64%; }
+  .poster[data-pos='br'] { width: 110px; left: 68%;  top: 62%; }
 }
 
 /* very narrow phones (≤360px): keep the header CTA off the edges */

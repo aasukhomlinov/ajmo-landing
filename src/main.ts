@@ -241,7 +241,7 @@ if (!prefersReducedMotion) {
   });
 
   /* Scene 5 — CTA reveal; phone drifts in from the right. */
-  gsap.from('.cta-copy > *', {
+  gsap.from('.cta-head > *, .cta-form > *', {
     y: 50,
     opacity: 0,
     stagger: 0.1,
