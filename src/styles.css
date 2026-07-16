@@ -376,13 +376,17 @@ a { color: inherit; text-decoration: none; }
   .scroll-pill { display: none; }
   /* smaller headline here carries less leading → give the badge real air */
   .hero-pin > .ghost-pill { margin-bottom: 4px; }
-  /* CTA: headline first, phone under it, form below */
+  /* CTA: headline first, phone snug under it, full-width form below */
   .cta {
     grid-template-columns: 1fr;
     grid-template-areas: 'head' 'phone' 'form';
-    row-gap: clamp(28px, 7vw, 44px);
+    row-gap: clamp(12px, 3vw, 24px);
   }
   .cta-phone { justify-self: center; }
+  .cta-form { width: 100%; }
+  .waitlist { width: 100%; }
+  .waitlist input { width: 100%; }
+  .waitlist button { width: 100%; }
   /* lime scene: all 5 posters, smaller, scattered around the centered
      headline (3 above, 2 below) so none sits over the middle band */
   .poster[data-pos='tl'] { width: 122px; left: -6%;  top: 8%;  }

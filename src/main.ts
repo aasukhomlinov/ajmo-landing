@@ -129,8 +129,7 @@ if (!prefersReducedMotion) {
     )
     /* dead time: hold the full-screen phone before the wipe arrives */
     .to({}, { duration: 0.2 }, 0.35)
-    /* beat 3 — as the lime wipe rides up, the phone shrinks and dives
-       beneath it (lime sits on a higher z-index) */
+    /* beat 3 — as the lime wipe rides up, the phone shrinks and dives… */
     .to(
       phone,
       {
@@ -143,7 +142,9 @@ if (!prefersReducedMotion) {
         duration: 0.4,
       },
       0.55,
-    );
+    )
+    /* …and fades out ahead of the diagonal so it's never hard-sliced */
+    .to(phone, { opacity: 0, ease: 'power2.in', duration: 0.22 }, 0.5);
 
   /* the wipe edge itself flattens as the lime section lands */
   gsap.to('#lime', {
