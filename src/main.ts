@@ -148,9 +148,11 @@ if (!prefersReducedMotion) {
     /* …and fades out ahead of the diagonal so it's never hard-sliced */
     .to(phone, { opacity: 0, ease: 'power2.in', duration: 0.22 }, 0.5);
 
-  /* the wipe edge itself flattens as the lime section lands */
-  gsap.to('#lime', {
-    clipPath: 'polygon(0 0vw, 100% 0, 100% 100%, 0 100%)',
+  /* the slanted edge flattens as the lime section lands (wedge, not
+     clip-path on the section — iOS Safari breaks clip over sticky) */
+  gsap.to('.lime-notch', {
+    scaleY: 0,
+    transformOrigin: 'top',
     ease: 'none',
     scrollTrigger: { trigger: '#lime', start: 'top 60%', end: 'top top', scrub: true },
   });
@@ -252,20 +254,27 @@ if (!prefersReducedMotion) {
     ease: 'power3.out',
     scrollTrigger: { trigger: '.cta', start: 'top 70%' },
   });
-  gsap.from('.cta-phone', {
-    y: 90,
-    opacity: 0,
-    duration: 1,
-    ease: 'power3.out',
-    scrollTrigger: { trigger: '.cta', start: 'top 65%' },
-  });
-  /* on the way to the footer the phone drifts up and dissolves */
-  gsap.to('.cta-phone', {
-    y: -110,
-    opacity: 0,
-    ease: 'none',
-    scrollTrigger: { trigger: '.footer', start: 'top bottom', end: 'top 45%', scrub: true },
-  });
+  /* single owner of the phone's y/opacity: a fixed fromTo scrub — mixing a
+     one-shot reveal with a scrub on the same props caches broken start
+     values (the phone rendered invisible on prod). On the way out of the
+     CTA the phone drifts up and dissolves. */
+  gsap.fromTo(
+    '.cta-phone',
+    { y: 0, opacity: 1 },
+    {
+      y: -110,
+      opacity: 0,
+      ease: 'none',
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: '.cta',
+        start: 'bottom 85%',
+        end: 'bottom 35%',
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
+    },
+  );
 
   /* Footer — the giant wordmark rises into view (Jeton-style closer). */
   gsap.from('.wordmark-giant', {
