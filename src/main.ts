@@ -114,8 +114,10 @@ if (!prefersReducedMotion) {
         invalidateOnRefresh: true,
       },
     })
-    .to('.hero .ghost-pill, .scroll-pill', { opacity: 0, duration: 0.1 }, 0)
-    .to('.hero-title', { opacity: 0, y: -60, duration: 0.2 }, 0)
+    /* fast fade: the phone PNG carries an opaque dark box, so the headline
+       must be gone before the rising phone overlaps it */
+    .to('.hero .ghost-pill, .scroll-pill', { opacity: 0, duration: 0.06 }, 0)
+    .to('.hero-title', { opacity: 0, y: -60, duration: 0.08 }, 0)
     .to(
       phone,
       {
@@ -242,7 +244,7 @@ if (!prefersReducedMotion) {
   });
 
   /* Scene 5 — CTA reveal; phone drifts in from the right. */
-  gsap.from('.cta-badge, .cta-title, .cta-form > *', {
+  gsap.from('.cta-title, .cta-form > *', {
     y: 50,
     opacity: 0,
     stagger: 0.1,
@@ -251,12 +253,18 @@ if (!prefersReducedMotion) {
     scrollTrigger: { trigger: '.cta', start: 'top 70%' },
   });
   gsap.from('.cta-phone', {
-    x: 120,
-    rotation: 4,
+    y: 90,
     opacity: 0,
     duration: 1,
     ease: 'power3.out',
     scrollTrigger: { trigger: '.cta', start: 'top 65%' },
+  });
+  /* on the way to the footer the phone drifts up and dissolves */
+  gsap.to('.cta-phone', {
+    y: -110,
+    opacity: 0,
+    ease: 'none',
+    scrollTrigger: { trigger: '.footer', start: 'top bottom', end: 'top 45%', scrub: true },
   });
 
   /* Footer — the giant wordmark rises into view (Jeton-style closer). */
