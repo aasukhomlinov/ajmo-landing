@@ -388,10 +388,10 @@ a { color: inherit; text-decoration: none; }
   .scroll-pill { display: none; }
   /* smaller headline here carries less leading → give the badge real air */
   .hero-pin > .ghost-pill { margin-bottom: 4px; }
-  /* CTA: phone first, then the headline, form last */
+  /* CTA: headline, then the form, phone last */
   .cta {
     grid-template-columns: 1fr;
-    grid-template-areas: 'phone' 'title' 'form';
+    grid-template-areas: 'title' 'form' 'phone';
     row-gap: clamp(16px, 4vw, 28px);
   }
   .cta-phone { justify-self: center; width: clamp(240px, 62vw, 320px); }

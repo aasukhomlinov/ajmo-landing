@@ -148,14 +148,9 @@ if (!prefersReducedMotion) {
     /* …and fades out ahead of the diagonal so it's never hard-sliced */
     .to(phone, { opacity: 0, ease: 'power2.in', duration: 0.22 }, 0.5);
 
-  /* the slanted edge flattens as the lime section lands (wedge, not
-     clip-path on the section — iOS Safari breaks clip over sticky) */
-  gsap.to('.lime-notch', {
-    scaleY: 0,
-    transformOrigin: 'top',
-    ease: 'none',
-    scrollTrigger: { trigger: '#lime', start: 'top 60%', end: 'top top', scrub: true },
-  });
+  /* the notch is a STATIC dark diagonal — its full-width top edge stays
+     dark, so the lime's straight bright top can never flash as a strip.
+     (Animating it to scaleY:0 revealed that bright edge — the green strip.) */
 
   /* Scene 2 — headline shrinks, posters fly from the edges into a deck
      behind the text (storyboard row B). */
