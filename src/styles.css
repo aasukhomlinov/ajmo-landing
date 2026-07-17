@@ -399,13 +399,13 @@ a { color: inherit; text-decoration: none; }
   .scroll-pill { display: none; }
   /* smaller headline here carries less leading → give the badge real air */
   .hero-pin > .ghost-pill { margin-bottom: 4px; }
-  /* CTA: headline, then the form, phone last (with extra air above it) */
+  /* CTA: phone on top, then the headline, form last */
   .cta {
     grid-template-columns: 1fr;
-    grid-template-areas: 'title' 'form' 'phone';
+    grid-template-areas: 'phone' 'title' 'form';
     row-gap: clamp(16px, 4vw, 28px);
   }
-  .cta-phone { justify-self: center; width: clamp(240px, 62vw, 320px); margin-top: clamp(28px, 9vw, 64px); }
+  .cta-phone { justify-self: center; width: clamp(240px, 62vw, 320px); }
   .cta-form { width: 100%; }
   .waitlist { width: 100%; }
   .waitlist input { width: 100%; }
