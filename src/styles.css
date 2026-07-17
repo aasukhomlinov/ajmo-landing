@@ -50,11 +50,15 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ---------- type helpers ---------- */
+/* headline = DS "Display" text style: TikTok Sans ExtraBold,
+   wght 800 · wdth 125 · opsz 36, tracking -0.5/34 ≈ -0.015em, LH 40/34 ≈ 1.18
+   (same style as the app's event titles). */
 .display, h1, h2 {
   font-weight: 800;
-  font-stretch: 121%;
-  letter-spacing: -0.02em;
-  line-height: 0.98;
+  font-stretch: 125%;
+  font-variation-settings: 'opsz' 36;
+  letter-spacing: -0.015em;
+  line-height: 1.18;
   text-wrap: balance;
 }
 .caption-type {
@@ -117,6 +121,9 @@ a { color: inherit; text-decoration: none; }
   transform: translate(-50%, -50%);
 }
 .wordmark { width: 98px; height: 33px; fill: var(--lime); }
+/* optical centering: the "j" descender pulls the letter mass up, so nudge
+   the wordmark down a hair to sit centered against the CTA pill */
+.nav-logo { display: inline-flex; transform: translateY(2px); }
 .nav-links { display: flex; gap: 28px; font-size: 14px; color: var(--text-2); }
 .nav-links a:hover { color: var(--text); }
 .nav-cta {
@@ -193,17 +200,20 @@ a { color: inherit; text-decoration: none; }
      sticky descendant (squeezed layer, sideways pan). The slanted edge is
      the .lime-notch wedge instead. */
 }
+/* inline SVG (not CSS clip-path — iOS Safari drops clip-path anywhere in a
+   subtree that contains position:sticky, which flashed the lime's straight
+   bright top edge as a green strip). SVG polygon renders reliably. */
 .lime-notch {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 4.5vw;
-  background: var(--bg);
-  clip-path: polygon(0 0, 100% 0, 0 100%);
   z-index: 3;
   pointer-events: none;
+  display: block;
 }
+.lime-notch polygon { fill: var(--bg); }
 .lime-pin {
   position: sticky;
   top: 0;
@@ -252,9 +262,10 @@ a { color: inherit; text-decoration: none; }
 }
 .word {
   font-weight: 800;
-  font-stretch: 121%;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
+  font-stretch: 125%;
+  font-variation-settings: 'opsz' 36;
+  letter-spacing: -0.015em;
+  line-height: 1.18;
   font-size: clamp(56px, 8vw, 110px);
   color: var(--text-2);
   opacity: 0.32;
@@ -388,13 +399,13 @@ a { color: inherit; text-decoration: none; }
   .scroll-pill { display: none; }
   /* smaller headline here carries less leading → give the badge real air */
   .hero-pin > .ghost-pill { margin-bottom: 4px; }
-  /* CTA: headline, then the form, phone last */
+  /* CTA: headline, then the form, phone last (with extra air above it) */
   .cta {
     grid-template-columns: 1fr;
     grid-template-areas: 'title' 'form' 'phone';
     row-gap: clamp(16px, 4vw, 28px);
   }
-  .cta-phone { justify-self: center; width: clamp(240px, 62vw, 320px); }
+  .cta-phone { justify-self: center; width: clamp(240px, 62vw, 320px); margin-top: clamp(28px, 9vw, 64px); }
   .cta-form { width: 100%; }
   .waitlist { width: 100%; }
   .waitlist input { width: 100%; }
