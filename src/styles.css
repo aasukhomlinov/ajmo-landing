@@ -281,19 +281,20 @@ a { color: inherit; text-decoration: none; }
   background: var(--bg);
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  /* copy stacks on the left (headline top, form bottom), phone spans right */
+  /* copy stacks on the left (badge, headline, form), phone spans right */
   grid-template-areas:
-    'head phone'
-    'form phone';
+    'badge phone'
+    'title phone'
+    'form  phone';
   align-items: center;
   column-gap: clamp(24px, 5vw, 80px);
-  row-gap: clamp(24px, 3vw, 40px);
+  row-gap: clamp(20px, 2.2vw, 28px);
   padding: clamp(80px, 14vh, 160px) var(--gutter);
   border-top: 1px solid var(--border);
 }
-.cta-head { grid-area: head; display: flex; flex-direction: column; align-items: flex-start; gap: 28px; }
+.cta-badge { grid-area: badge; justify-self: start; }
+.cta-title { grid-area: title; font-size: clamp(48px, 6.5vw, 96px); }
 .cta-form { grid-area: form; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
-.cta-title { font-size: clamp(48px, 6.5vw, 96px); }
 .cta-phone { grid-area: phone; width: clamp(300px, 40vw, 588px); height: auto; justify-self: end; }
 
 .waitlist { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -376,12 +377,13 @@ a { color: inherit; text-decoration: none; }
   .scroll-pill { display: none; }
   /* smaller headline here carries less leading → give the badge real air */
   .hero-pin > .ghost-pill { margin-bottom: 4px; }
-  /* CTA: headline first, phone snug under it, full-width form below */
+  /* CTA: centered badge, then the phone, then the headline, form last */
   .cta {
     grid-template-columns: 1fr;
-    grid-template-areas: 'head' 'phone' 'form';
+    grid-template-areas: 'badge' 'phone' 'title' 'form';
     row-gap: clamp(12px, 3vw, 24px);
   }
+  .cta-badge { justify-self: center; }
   .cta-phone { justify-self: center; }
   .cta-form { width: 100%; }
   .waitlist { width: 100%; }
