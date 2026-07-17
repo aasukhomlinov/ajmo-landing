@@ -249,34 +249,29 @@ if (!prefersReducedMotion) {
     ease: 'power3.out',
     scrollTrigger: { trigger: '.cta', start: 'top 70%' },
   });
-  /* single owner of the phone's y/opacity: a fixed fromTo scrub — mixing a
-     one-shot reveal with a scrub on the same props caches broken start
-     values (the phone rendered invisible on prod). On the way out of the
-     CTA the phone drifts up and dissolves. */
-  gsap.fromTo(
-    '.cta-phone',
-    { y: 0, opacity: 1 },
-    {
-      y: -110,
-      opacity: 0,
-      ease: 'none',
-      immediateRender: false,
-      scrollTrigger: {
-        trigger: '.cta',
-        start: 'bottom 85%',
-        end: 'bottom 35%',
-        scrub: true,
-        invalidateOnRefresh: true,
-      },
-    },
-  );
+  /* (CTA phone has no scroll animation — it just sits in the layout.) */
 
-  /* Footer — the giant wordmark rises into view (Jeton-style closer). */
-  gsap.from('.wordmark-giant', {
-    yPercent: 45,
-    ease: 'none',
-    scrollTrigger: { trigger: '.footer', start: 'top bottom', end: 'bottom bottom', scrub: true },
-  });
+  /* Footer — the giant wordmark rises up from below and fades in on enter.
+     IntersectionObserver + CSS transition (not ScrollTrigger) so it can
+     never get stuck invisible near the very bottom of the page. */
+  const giant = document.querySelector<HTMLElement>('.wordmark-giant');
+  if (giant) {
+    giant.style.opacity = '0';
+    giant.style.transform = 'translateY(45%)';
+    giant.style.transition = 'opacity 0.9s ease, transform 1s cubic-bezier(0.2, 0.7, 0.2, 1)';
+    new IntersectionObserver(
+      (entries, obs) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            giant.style.opacity = '1';
+            giant.style.transform = 'none';
+            obs.disconnect();
+          }
+        }
+      },
+      { threshold: 0.25 },
+    ).observe(giant);
+  }
 
   /* Layout can settle after module init (late fonts, viewport chrome) —
      re-measure every trigger once the dust settles. */
