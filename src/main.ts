@@ -103,6 +103,13 @@ if (!prefersReducedMotion) {
      center; beat 2 — a short full-screen hold, then the lime wipe covers
      the pinned hero exactly as before (cover pattern). */
   const phone = document.querySelector<HTMLElement>('.hero-phone')!;
+  /* offsetTop/offsetHeight ignore transforms — stable across refreshes */
+  const centerY = () => window.innerHeight / 2 - (phone.offsetTop + phone.offsetHeight / 2);
+  /* mobile fills the viewport edge-to-edge (>100svh) so the rising lime
+     diagonal wipes straight over the phone — no black band between the
+     phone's bottom and the notch. Desktop keeps the floating 94svh phone. */
+  const isMobile = () => window.innerWidth <= 900;
+  const fullScale = () => (window.innerHeight * (isMobile() ? 1.03 : 0.94)) / phone.offsetHeight;
   gsap
     .timeline({
       defaults: { ease: 'none' },
@@ -121,9 +128,8 @@ if (!prefersReducedMotion) {
     .to(
       phone,
       {
-        /* offsetTop/offsetHeight ignore transforms — stable across refreshes */
-        y: () => window.innerHeight / 2 - (phone.offsetTop + phone.offsetHeight / 2),
-        scale: () => (window.innerHeight * 0.94) / phone.offsetHeight,
+        y: centerY,
+        scale: fullScale,
         transformOrigin: '50% 50%',
         duration: 0.32,
       },
@@ -131,22 +137,21 @@ if (!prefersReducedMotion) {
     )
     /* dead time: hold the full-screen phone before the wipe arrives */
     .to({}, { duration: 0.2 }, 0.35)
-    /* beat 3 — as the lime wipe rides up, the phone shrinks and dives… */
+    /* beat 3 — desktop: the phone shrinks and dives away as the lime rides up.
+       mobile: it holds full-bleed and the rising diagonal covers it directly. */
     .to(
       phone,
       {
-        y: () =>
-          window.innerHeight / 2 -
-          (phone.offsetTop + phone.offsetHeight / 2) +
-          window.innerHeight * 0.5,
-        scale: () => ((window.innerHeight * 0.94) / phone.offsetHeight) * 0.72,
+        y: () => centerY() + (isMobile() ? 0 : window.innerHeight * 0.5),
+        scale: () => fullScale() * (isMobile() ? 1 : 0.72),
         ease: 'power1.in',
         duration: 0.4,
       },
       0.55,
     )
-    /* …and fades out ahead of the diagonal so it's never hard-sliced */
-    .to(phone, { opacity: 0, ease: 'power2.in', duration: 0.22 }, 0.5);
+    /* …and (desktop only) fades out ahead of the diagonal so it's never
+       hard-sliced; on mobile the lime notch is the clean cut. */
+    .to(phone, { opacity: () => (isMobile() ? 1 : 0), ease: 'power2.in', duration: 0.22 }, 0.5);
 
   /* the notch is a STATIC dark diagonal — its full-width top edge stays
      dark, so the lime's straight bright top can never flash as a strip.
