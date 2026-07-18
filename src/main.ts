@@ -105,11 +105,12 @@ if (!prefersReducedMotion) {
   const phone = document.querySelector<HTMLElement>('.hero-phone')!;
   /* offsetTop/offsetHeight ignore transforms — stable across refreshes */
   const centerY = () => window.innerHeight / 2 - (phone.offsetTop + phone.offsetHeight / 2);
-  /* mobile fills the viewport edge-to-edge (>100svh) so the rising lime
-     diagonal wipes straight over the phone — no black band between the
-     phone's bottom and the notch. Desktop keeps the floating 94svh phone. */
-  const isMobile = () => window.innerWidth <= 900;
-  const fullScale = () => (window.innerHeight * (isMobile() ? 1.03 : 0.94)) / phone.offsetHeight;
+  /* "cover" scale: the phone fills the viewport in BOTH axes (a portrait phone
+     fills height on mobile, width on desktop) so the rising lime diagonal
+     always wipes over app content — never over the bare dark background, which
+     is what left a black band on wider viewports. */
+  const fullScale = () =>
+    Math.max(window.innerWidth / phone.offsetWidth, window.innerHeight / phone.offsetHeight) * 1.03;
   gsap
     .timeline({
       defaults: { ease: 'none' },
@@ -135,23 +136,10 @@ if (!prefersReducedMotion) {
       },
       0.03,
     )
-    /* dead time: hold the full-screen phone before the wipe arrives */
-    .to({}, { duration: 0.2 }, 0.35)
-    /* beat 3 — desktop: the phone shrinks and dives away as the lime rides up.
-       mobile: it holds full-bleed and the rising diagonal covers it directly. */
-    .to(
-      phone,
-      {
-        y: () => centerY() + (isMobile() ? 0 : window.innerHeight * 0.5),
-        scale: () => fullScale() * (isMobile() ? 1 : 0.72),
-        ease: 'power1.in',
-        duration: 0.4,
-      },
-      0.55,
-    )
-    /* …and (desktop only) fades out ahead of the diagonal so it's never
-       hard-sliced; on mobile the lime notch is the clean cut. */
-    .to(phone, { opacity: () => (isMobile() ? 1 : 0), ease: 'power2.in', duration: 0.22 }, 0.5);
+    /* hold the full-bleed phone for the rest of the pin: the lime diagonal
+       wipes straight over it, so there's no dive/fade that would reveal the
+       dark background as a black gap (the lime notch is the clean cut). */
+    .to({}, { duration: 0.6 }, 0.35);
 
   /* the notch is a STATIC dark diagonal — its full-width top edge stays
      dark, so the lime's straight bright top can never flash as a strip.
