@@ -98,19 +98,17 @@ if (!prefersReducedMotion) {
     (window as unknown as { __lenis: Lenis }).__lenis = lenis;
   }
 
-  /* Scene 1 — pinned hero, two beats (rev 2 of storyboard rows A/D):
-     beat 1 — headline fades out while the phone surfaces to full-screen
-     center; beat 2 — a short full-screen hold, then the lime wipe covers
-     the pinned hero exactly as before (cover pattern). */
+  /* Scene 1 — pinned hero:
+     beat 1 — the headline fades out while the phone surfaces to a floating
+     mockup that fully fits the viewport (margins on every side, never
+     cropped); beat 2 — a short hold; beat 3 — the phone slides straight down
+     and tucks under the rising lime panel (which has a plain straight edge). */
   const phone = document.querySelector<HTMLElement>('.hero-phone')!;
   /* offsetTop/offsetHeight ignore transforms — stable across refreshes */
   const centerY = () => window.innerHeight / 2 - (phone.offsetTop + phone.offsetHeight / 2);
-  /* "cover" scale: the phone fills the viewport in BOTH axes (a portrait phone
-     fills height on mobile, width on desktop) so the rising lime diagonal
-     always wipes over app content — never over the bare dark background, which
-     is what left a black band on wider viewports. */
-  const fullScale = () =>
-    Math.max(window.innerWidth / phone.offsetWidth, window.innerHeight / phone.offsetHeight) * 1.03;
+  /* fit the whole device inside the viewport height (leaves side + top/bottom
+     margins) so it reads as a floating mockup, not an edge-to-edge screen. */
+  const fitScale = () => (window.innerHeight * 0.86) / phone.offsetHeight;
   gsap
     .timeline({
       defaults: { ease: 'none' },
@@ -130,20 +128,27 @@ if (!prefersReducedMotion) {
       phone,
       {
         y: centerY,
-        scale: fullScale,
+        scale: fitScale,
         transformOrigin: '50% 50%',
         duration: 0.32,
       },
       0.03,
     )
-    /* hold the full-bleed phone for the rest of the pin: the lime diagonal
-       wipes straight over it, so there's no dive/fade that would reveal the
-       dark background as a black gap (the lime notch is the clean cut). */
-    .to({}, { duration: 0.6 }, 0.35);
-
-  /* the notch is a STATIC dark diagonal — its full-width top edge stays
-     dark, so the lime's straight bright top can never flash as a strip.
-     (Animating it to scaleY:0 revealed that bright edge — the green strip.) */
+    /* dead time: hold the surfaced phone before the lime arrives */
+    .to({}, { duration: 0.2 }, 0.35)
+    /* the phone drifts gently down while the rising lime panel covers it from
+       below (lime sits above the hero in z). Keeping the drift small means the
+       phone stays high and is eaten by the lime, instead of racing down and
+       exposing a big dark band above it — no diagonal, no fade. */
+    .to(
+      phone,
+      {
+        y: () => centerY() + window.innerHeight * 0.16,
+        ease: 'power1.in',
+        duration: 0.45,
+      },
+      0.55,
+    );
 
   /* Scene 2 — headline shrinks, posters fly from the edges into a deck
      behind the text (storyboard row B). */
