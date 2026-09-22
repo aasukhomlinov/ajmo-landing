@@ -36,7 +36,7 @@
 
   <main class="legal-page">
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated 16 September 2026</p>
+    <p class="updated">Last updated 22 September 2026</p>
 
     <p class="callout">This policy is written to be clear and specific to how ajmo actually works. It is a working document, not legal advice, and will be reviewed by a lawyer before ajmo’s public launch. If anything here is unclear, contact us using the details at the bottom.</p>
 
@@ -49,17 +49,18 @@
     <p>This policy covers two things:</p>
     <ul>
       <li>the <strong>ajmo.events website</strong>, including the launch waitlist; and</li>
-      <li>the <strong>ajmo mobile app</strong> (currently in development, not yet released).</li>
+      <li>the <strong>ajmo mobile app</strong> for iPhone.</li>
     </ul>
     <p>Where a section applies only to one of them, we say so.</p>
 
     <h2>What we collect and why</h2>
     <p><strong>Waitlist (website).</strong> If you sign up to be notified at launch, we collect your <strong>email address</strong> and nothing else. We use it for a single purpose: to email you once, when ajmo is available. The legal basis is your <strong>consent</strong>.</p>
-    <p><strong>Your account (app).</strong> The app uses passwordless sign-in, so we collect your <strong>email address</strong> to send you a one-time sign-in link and to identify your account. The legal basis is <strong>performance of our contract</strong> with you (providing the service).</p>
+    <p><strong>Browsing without an account (app).</strong> You can browse the whole event catalogue without an account. The city and language you pick are kept on your device only.</p>
+    <p><strong>Your account (app).</strong> An account is only needed to save events, set reminders and change profile settings. Sign-in is passwordless: we collect your <strong>email address</strong> to email you a 6-digit one-time sign-in code (the same email also contains a one-time sign-in link as a fallback) and to identify your account. The legal basis is <strong>performance of our contract</strong> with you (providing the service).</p>
     <p><strong>Your activity in the app.</strong> To make the app work, we store:</p>
     <ul>
       <li>the <strong>events you save</strong> (your bookmarks);</li>
-      <li>the <strong>city you choose</strong> (Belgrade or Novi Sad);</li>
+      <li>the <strong>city you choose</strong> (Belgrade or Novi Sad) and your <strong>interface language</strong>;</li>
       <li>your <strong>reminder preferences</strong> for saved events.</li>
     </ul>
     <p>Reminders for saved events are scheduled as <strong>local notifications on your device</strong> — we do not send push notifications from our servers, and we do not track whether or when you open them. The legal basis for saves and settings is our contract with you; for notifications it is your <strong>consent</strong> (the permission you grant your device).</p>
@@ -81,11 +82,15 @@
       <li>We do <strong>not</strong> show ads or use advertising identifiers.</li>
       <li>We do <strong>not</strong> track you across other apps or websites.</li>
       <li>We do <strong>not</strong> sell, rent, or trade your personal data.</li>
+      <li>We do <strong>not</strong> send any of your data to AI services.</li>
       <li>We do <strong>not</strong> build profiles or make automated decisions that produce legal effects about you.</li>
     </ul>
 
     <h2>Event information</h2>
-    <p>The events shown in ajmo are gathered from public sources — venues, organizers, official event pages, and public Telegram channels — and kept up to date. This is information about events, not about you, and we only surface what those sources make publicly available.</p>
+    <p>The events shown in ajmo are gathered from announcements that venues and organizers publish publicly: their websites, ticketing pages, public Telegram channels, and public Instagram posts, which we collect through a third-party service (Apify). This is information about events, not about you, and we only surface what those sources make publicly available.</p>
+    <p>On our servers, an AI service (Anthropic) reads these public announcements to extract event details and translate descriptions, and TMDB is used to match cinema listings to films. These services handle event content only. They never receive your email address, your saves, reminders, feedback, or anything else about you.</p>
+    <p><img src="/img/tmdb.svg" alt="TMDB" width="92" height="12" style="vertical-align: middle; margin-right: 8px;" /> This service uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.</p>
+    <p>If you run a venue or organize events, see <a href="/venues">For venues and organizers</a> to request a correction or removal.</p>
 
     <h2>Where your data is stored</h2>
     <p>Your data is hosted on <strong>Supabase</strong>, our database and authentication provider, in a data centre in the <strong>European Union (Ireland)</strong>. If you access ajmo from outside the EU, your data is transferred to and processed there.</p>
@@ -96,9 +101,11 @@
       <li><strong>Supabase</strong> — database, authentication, and hosting.</li>
       <li><strong>Resend</strong> — delivers our transactional emails (the waitlist confirmation and the app’s one-time sign-in codes) on our behalf.</li>
       <li><strong>Mapbox</strong> — provides the static map image shown on an event’s location. When that map loads on your device, a request is sent to Mapbox that includes the venue’s coordinates and your device’s network (IP) information. The map does not use or reveal your own location.</li>
+      <li><strong>Expo</strong> — delivers app updates. When the app starts it checks Expo’s update server; that request includes your device’s network (IP) information and a random identifier created when the app is installed, and no account data.</li>
+      <li><strong>Vercel</strong> — hosts the ajmo.events website, which means it processes your network (IP) information when you visit.</li>
       <li><strong>Apple</strong> — solely for distributing the app through the App Store; app-store analytics they provide to us are aggregated and not linked to your identity by us.</li>
     </ul>
-    <p>These providers act as our processors under written agreements and may not use your data for their own purposes. We may also disclose data if required by law or to protect our rights and users.</p>
+    <p>No other service receives your personal data, and none of it is sent to AI services. These providers act as our processors under written agreements and may not use your data for their own purposes. We may also disclose data if required by law or to protect our rights and users.</p>
 
     <h2>How long we keep it</h2>
     <ul>
@@ -136,9 +143,10 @@
     <h2>Contact us</h2>
     <p>For any privacy question or request, write to us at:<br />
     <strong>Artem Sukhomlinov PR Beograd</strong><br />
-    Kralja Milana 15, Beograd, Serbia</p>
+    Kralja Milana 15, Beograd, Serbia<br />
+    <a href="mailto:hello@ajmo.events">hello@ajmo.events</a></p>
 
-    <p><a href="/terms">Terms of Service</a> · <a href="/">Back to ajmo.events</a></p>
+    <p><a href="/terms">Terms of Service</a> · <a href="/venues">For venues and organizers</a> · <a href="/">Back to ajmo.events</a></p>
   </main>
 </body>
 </html>
