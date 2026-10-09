@@ -2,63 +2,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 
-import { joinWaitlist } from './waitlist';
-
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-/* ---------- waitlist form → Supabase (see src/waitlist.ts) ---------- */
-const form = document.querySelector<HTMLFormElement>('#waitlist');
-const microcopy = document.querySelector<HTMLParagraphElement>('.microcopy');
-const microDefault = microcopy?.textContent ?? '';
-
-form?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  if (form.classList.contains('is-done')) return;
-
-  const email = form.querySelector<HTMLInputElement>('#email');
-  const button = form.querySelector<HTMLButtonElement>('button');
-  const honeypot = form.querySelector<HTMLInputElement>('input[name="company"]');
-  if (!email || !button) return;
-
-  const settle = (done: boolean, label: string, micro?: string) => {
-    button.textContent = label;
-    form.classList.toggle('is-done', done);
-    if (microcopy) microcopy.textContent = micro ?? microDefault;
-  };
-
-  // hidden honeypot filled → almost certainly a bot; fake success, drop it
-  if (honeypot?.value) {
-    settle(true, 'You’re on the list ✦', 'We’ll email you the moment ajmo goes live.');
-    email.value = '';
-    return;
-  }
-
-  if (!email.value || !email.checkValidity()) {
-    email.focus();
-    return;
-  }
-
-  const original = button.textContent ?? 'Notify me at launch';
-  button.disabled = true;
-  form.classList.remove('is-error');
-  button.textContent = 'Adding…';
-
-  const result = await joinWaitlist(email.value);
-
-  if (result === 'ok' || result === 'duplicate') {
-    settle(true, 'You’re on the list ✦', 'We’ll email you the moment ajmo goes live.');
-    email.value = '';
-  } else if (result === 'invalid') {
-    button.disabled = false;
-    button.textContent = original;
-    email.focus();
-  } else {
-    button.disabled = false;
-    form.classList.add('is-error');
-    button.textContent = 'Try again';
-    if (microcopy) microcopy.textContent = 'Something went wrong — please try again.';
-  }
-});
 
 /* ---------- scroll choreography (spec: Figma “D2 · Scroll Storyboard”) ---------- */
 /* `?static` disables smooth scroll (screenshot tooling / debugging);
@@ -87,12 +31,6 @@ if (!prefersReducedMotion) {
       else if (e.key in jump) lenis.scrollTo(lenis.targetScroll + jump[e.key]);
       else return;
       e.preventDefault();
-    });
-    // header CTA: smooth-scroll to the waitlist instead of a native jump
-    // (Lenis would fight the browser's instant anchor scroll)
-    document.querySelector('.nav-cta')?.addEventListener('click', (e) => {
-      e.preventDefault();
-      lenis.scrollTo('#cta');
     });
     // debug/test hook
     (window as unknown as { __lenis: Lenis }).__lenis = lenis;
