@@ -8,6 +8,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         privacy: resolve(__dirname, 'privacy.html'),
         terms: resolve(__dirname, 'terms.html'),
+        guidelines: resolve(__dirname, 'guidelines.html'),
         dataDeletion: resolve(__dirname, 'data-deletion.html'),
         venues: resolve(__dirname, 'venues.html'),
       },
