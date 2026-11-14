@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ajmo — find out what’s on tonight · Belgrade & Novi Sad</title>
-  <meta name="description" content="ajmo is an events app for Belgrade and Novi Sad — concerts, parties, art, and more, all in one place. Now on the App Store." />
+  <meta name="description" content="ajmo is an events app for Belgrade and Novi Sad — concerts, parties, art, and more, all in one place. Now on the App Store and Google Play." />
   <meta name="theme-color" content="#0D0E11" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon.png" sizes="48x48" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <meta property="og:title" content="ajmo — find out what’s on tonight" />
-  <meta property="og:description" content="Every event in your city, one place. Belgrade & Novi Sad. Now on the App Store." />
+  <meta property="og:description" content="Every event in your city, one place. Belgrade & Novi Sad. Now on the App Store and Google Play." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://ajmo.events" />
   <meta property="og:image" content="https://ajmo.events/og.png" />
@@ -19,7 +19,7 @@
   <meta property="og:image:alt" content="ajmo — find out what’s on tonight. Every event in Belgrade & Novi Sad, one place." />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="ajmo — find out what’s on tonight" />
-  <meta name="twitter:description" content="Every event in your city, one place. Belgrade & Novi Sad. Now on the App Store." />
+  <meta name="twitter:description" content="Every event in your city, one place. Belgrade & Novi Sad. Now on the App Store and Google Play." />
   <meta name="twitter:image" content="https://ajmo.events/og.png" />
   <link rel="stylesheet" href="/src/styles.css" />
 </head>
@@ -31,6 +31,9 @@
       </symbol>
       <symbol id="apple" viewBox="0 0 256 256">
         <path d="M128.23,30A40,40,0,0,1,167,0h1a8,8,0,0,1,0,16h-1a24,24,0,0,0-23.24,18,8,8,0,1,1-15.5-4ZM223.3,169.59a8.07,8.07,0,0,0-2.8-3.4C203.53,154.53,200,134.64,200,120c0-17.67,13.47-33.06,21.5-40.67a8,8,0,0,0,0-11.62C208.82,55.74,187.82,48,168,48a72.23,72.23,0,0,0-40,12.13,71.56,71.56,0,0,0-90.71,9.09A74.63,74.63,0,0,0,16,123.4a127,127,0,0,0,40.14,89.73A39.8,39.8,0,0,0,83.59,224h87.68a39.84,39.84,0,0,0,29.12-12.57,125,125,0,0,0,17.82-24.6C225.23,174,224.33,172,223.3,169.59Z"/>
+      </symbol>
+      <symbol id="play" viewBox="0 0 256 256">
+        <path d="M239.82,114.18,72,18.16a16,16,0,0,0-16.12,0A15.68,15.68,0,0,0,48,31.87V224.13a15.68,15.68,0,0,0,7.92,13.67,16,16,0,0,0,16.12,0l167.78-96a15.76,15.76,0,0,0,0-27.64ZM160,139.31l18.92,18.92-88.5,50.66ZM90.4,47.1l88.53,50.67L160,116.69ZM193.31,150l-22-22,22-22,38.43,22Z"/>
       </symbol>
     </defs>
   </svg>
@@ -44,15 +47,18 @@
       <a href="/terms">Terms of Service</a>
       <a href="/venues#contact">Contact</a>
     </nav>
-    <a class="nav-cta" href="https://apps.apple.com/rs/app/ajmo-events-in-serbia/id6807155303">Download</a>
+    <a class="nav-cta" href="#cta">Download</a>
   </header>
 
   <main>
     <section class="hero" id="hero">
       <div class="hero-pin">
-        <span class="ghost-pill apple-pill">
-          <svg class="apple-icon" viewBox="0 0 256 256" aria-hidden="true"><use href="#apple" /></svg>
-          Now on the App Store
+        <span class="ghost-pill">
+          <span class="store-icons">
+            <svg class="store-icon" viewBox="0 0 256 256" aria-hidden="true"><use href="#apple" /></svg>
+            <svg class="store-icon" viewBox="0 0 256 256" aria-hidden="true"><use href="#play" /></svg>
+          </span>
+          Now on iOS &amp; Android
         </span>
         <h1 class="hero-title">Find out what’s<br />on tonight</h1>
         <img class="hero-phone" src="/img/phone-hero.png" alt="ajmo app — tonight’s events feed for Belgrade" width="492" height="1020" />
@@ -98,8 +104,12 @@
       <h2 class="cta-title">Stop scrolling.<br /><span class="lime-text">Start going.</span></h2>
       <div class="cta-form">
         <a class="download" href="https://apps.apple.com/rs/app/ajmo-events-in-serbia/id6807155303">
-          <svg class="apple-icon" viewBox="0 0 256 256" aria-hidden="true"><use href="#apple" /></svg>
+          <svg class="store-icon" viewBox="0 0 256 256" aria-hidden="true"><use href="#apple" /></svg>
           Download on the App Store
+        </a>
+        <a class="download" href="https://play.google.com/store/apps/details?id=events.ajmo.app">
+          <svg class="store-icon" viewBox="0 0 256 256" aria-hidden="true"><use href="#play" /></svg>
+          Get it on Google Play
         </a>
       </div>
     </section>
